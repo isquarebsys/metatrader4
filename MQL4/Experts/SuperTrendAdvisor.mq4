@@ -188,7 +188,25 @@ void manageAlerts()
          //--- calculated SL and TP prices must be normalized
          double stoploss=NormalizeDouble(Bid-minstoplevel*Point,Digits);
          double takeprofit=NormalizeDouble(Bid+minstoplevel*Point,Digits);
-         int sellTicket=OrderSend(Symbol(),0,1,priceToSell,1,stoploss,takeprofit,"My order",16384,0,clrGreen);
+         /**
+            https://docs.mql4.com/trading/ordersend
+            
+            int  OrderSend(
+            string   symbol,              // symbol
+            int      cmd,                 // operation
+            double   volume,              // volume
+            double   price,               // price
+            int      slippage,            // slippage
+            double   stoploss,            // stop loss
+            double   takeprofit,          // take profit
+            string   comment=NULL,        // comment
+            int      magic=0,             // magic number
+            datetime expiration=0,        // pending order expiration
+            color    arrow_color=clrNONE  // color
+            );
+         */
+         int sellTicket=OrderSend(Symbol(),OP_SELL,1,priceToSell,1,stoploss,takeprofit,"Sell order",16384,0,clrGreen);
+         //int sellTicket=OrderSend(Symbol(),OP_SELL,1,priceToSell,1,0,0,"Sell order",16384,0,clrGreen);
          if(sellTicket<0)
            {
             Print("OrderSend failed with error #",GetLastError());
@@ -210,7 +228,25 @@ void manageAlerts()
       //--- calculated SL and TP prices must be normalized
       double stoplossForBuying=NormalizeDouble(Bid-minstoplevel*Point,Digits);
       double takeprofitForBuying=NormalizeDouble(Bid+minstoplevel*Point,Digits);
-      int buyTicket=OrderSend(Symbol(),0,1,priceToBuy,1,stoplossForBuying,takeprofitForBuying,"My order",16384,0,clrBlue);
+      /**
+         https://docs.mql4.com/trading/ordersend
+         
+         int  OrderSend(
+         string   symbol,              // symbol
+         int      cmd,                 // operation
+         double   volume,              // volume
+         double   price,               // price
+         int      slippage,            // slippage
+         double   stoploss,            // stop loss
+         double   takeprofit,          // take profit
+         string   comment=NULL,        // comment
+         int      magic=0,             // magic number
+         datetime expiration=0,        // pending order expiration
+         color    arrow_color=clrNONE  // color
+         );
+      */
+      int buyTicket=OrderSend(Symbol(),OP_BUY,1,priceToBuy,1,stoplossForBuying,takeprofitForBuying,"Buy order",16384,0,clrBlue);
+      //int buyTicket=OrderSend(Symbol(),OP_BUY,1,priceToBuy,1,0,0,"Buy order",16384,0,clrBlue);
       if(buyTicket<0)
         {
          Print("OrderSend failed with error #",GetLastError());
