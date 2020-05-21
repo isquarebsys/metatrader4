@@ -175,7 +175,7 @@ void manageAlerts()
   {
    if(alertsOn)
      {
-      Print("Inside alertsOn");
+      //Print("Inside alertsOn");
       if(alertsOnCurrent)
          int whichBar = 0;
       else
@@ -205,17 +205,19 @@ void manageAlerts()
             color    arrow_color=clrNONE  // color
             );
          */
+         // This CLOSES the order automatically
          int sellTicket=OrderSend(Symbol(),OP_SELL,1,priceToSell,1,stoploss,takeprofit,"Sell order",16384,0,clrGreen);
+         // This does NOT close the order automatically
          //int sellTicket=OrderSend(Symbol(),OP_SELL,1,priceToSell,1,0,0,"Sell order",16384,0,clrGreen);
          if(sellTicket<0)
            {
-            Print("OrderSend failed with error #",GetLastError());
-            //Print("OrderSend failed with error #"+GetLastError(),"Debug",0);
+            Print("OrderSend for OP_SELL failed with error #",GetLastError());
+            //Print("OrderSend for OP_SELL failed with error #"+GetLastError(),"Debug",0);
            }
          else
            {
-            Print("OrderSend placed successfully");
-            //Print("OrderSend placed successfully","Debug",0);
+            Print("OrderSend for OP_SELL placed successfully");
+            //Print("OrderSend for OP_SELL placed successfully","Debug",0);
            }
         }
       doAlert(whichBar,"Up");
@@ -245,17 +247,19 @@ void manageAlerts()
          color    arrow_color=clrNONE  // color
          );
       */
+      // This CLOSES the order automatically
       int buyTicket=OrderSend(Symbol(),OP_BUY,1,priceToBuy,1,stoplossForBuying,takeprofitForBuying,"Buy order",16384,0,clrBlue);
+      // This is NOT closing the order automatically
       //int buyTicket=OrderSend(Symbol(),OP_BUY,1,priceToBuy,1,0,0,"Buy order",16384,0,clrBlue);
       if(buyTicket<0)
         {
-         Print("OrderSend failed with error #",GetLastError());
-         //Print("rderSend failed with error #"+GetLastError(),"Debug",0);
+         Print("OrderSend for OP_BUY failed with error #",GetLastError());
+         //Print("rderSend for OP_BUY failed with error #"+GetLastError(),"Debug",0);
         }
       else
         {
-         Print("OrderSend placed successfully");
-         //Print("OrderSend placed successfully","Debug",0);
+         Print("OrderSend for OP_BUY placed successfully");
+         //Print("OrderSend for OP_BUY placed successfully","Debug",0);
         }
      }
    doAlert(whichBar,"Down");
