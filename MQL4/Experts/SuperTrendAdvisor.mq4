@@ -1,3 +1,8 @@
+//+------------------------------------------------------------------+
+//|                                                      ProjectName |
+//|                                      Copyright 2018, CompanyName |
+//|                                       http://www.companyname.net |
+//+------------------------------------------------------------------+
 #property indicator_chart_window
 #property indicator_buffers 4
 #property indicator_color1 DodgerBlue  // Line up[]
@@ -183,16 +188,17 @@ void manageAlerts()
          //--- calculated SL and TP prices must be normalized
          double stoploss=NormalizeDouble(Bid-minstoplevel*Point,Digits);
          double takeprofit=NormalizeDouble(Bid+minstoplevel*Point,Digits);
-         int sellTicket=OrderSend(Symbol(),0,1,priceToSell,1,0,0,"My order",16384,0,clrGreen);
+         int sellTicket=OrderSend(Symbol(),0,1,priceToSell,1,stoploss,takeprofit,"My order",16384,0,clrGreen);
          if(sellTicket<0)
            {
             Print("OrderSend failed with error #",GetLastError());
-            Print("OrderSend failed with error #"+GetLastError(),"Debug",0);
+            //Print("OrderSend failed with error #"+GetLastError(),"Debug",0);
            }
          else
+           {
             Print("OrderSend placed successfully");
-            Print("OrderSend placed successfully","Debug",0);
-
+            //Print("OrderSend placed successfully","Debug",0);
+           }
         }
       doAlert(whichBar,"Up");
      }
@@ -202,18 +208,18 @@ void manageAlerts()
       //double minstoplevel=MarketInfo(Symbol(),MODE_STOPLEVEL);
       double priceToBuy=Ask;
       //--- calculated SL and TP prices must be normalized
-      //double stoploss=NormalizeDouble(Bid-minstoplevel*Point,Digits);
-      //double takeprofit=NormalizeDouble(Bid+minstoplevel*Point,Digits);
-      int buyTicket=OrderSend(Symbol(),0,1,priceToBuy,1,0,0,"My order",16384,0,clrBlue);
+      double stoplossForBuying=NormalizeDouble(Bid-minstoplevel*Point,Digits);
+      double takeprofitForBuying=NormalizeDouble(Bid+minstoplevel*Point,Digits);
+      int buyTicket=OrderSend(Symbol(),0,1,priceToBuy,1,stoplossForBuying,takeprofitForBuying,"My order",16384,0,clrBlue);
       if(buyTicket<0)
         {
          Print("OrderSend failed with error #",GetLastError());
-         Print("rderSend failed with error #"+GetLastError(),"Debug",0);
+         //Print("rderSend failed with error #"+GetLastError(),"Debug",0);
         }
       else
         {
          Print("OrderSend placed successfully");
-         Print("OrderSend placed successfully","Debug",0);
+         //Print("OrderSend placed successfully","Debug",0);
         }
      }
    doAlert(whichBar,"Down");
@@ -247,5 +253,4 @@ void doAlert(int forBar, string doWhat)
         }
      }
   }
-
 //+------------------------------------------------------------------+
